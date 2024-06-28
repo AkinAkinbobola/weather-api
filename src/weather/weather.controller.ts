@@ -1,5 +1,6 @@
 import { Controller, Get, Param, Query } from '@nestjs/common';
 import { WeatherService } from './weather.service';
+import { CacheTTL } from '@nestjs/cache-manager';
 
 export enum Unit {
   uk = 'uk',
@@ -11,6 +12,7 @@ export enum Unit {
 export class WeatherController {
   constructor(private readonly weatherService: WeatherService) {}
 
+  @CacheTTL(30)
   @Get('/:location')
   async getWeather(
     @Param('location') location: string,
